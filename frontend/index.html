@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Primary SEO -->
+    <title>Shailendra Prajapati — Python Developer (Automation) & Data Analyst</title>
+    <meta
+      name="description"
+      content="Shailendra Prajapati — Python Developer specializing in automation (n8n, Apify) and data analysis, plus full-stack web apps with Django and React."
+    />
+    <meta name="author" content="Shailendra Prajapati" />
+    <meta name="theme-color" content="#6366f1" />
+    <link rel="canonical" href="https://shailendra-prajapati.dev/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Shailendra Prajapati — Python Developer (Automation) & Data Analyst" />
+    <meta
+      property="og:description"
+      content="Automation workflows, data dashboards, and full-stack web apps with Python, Django, and React."
+    />
+    <meta property="og:image" content="/og-image.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Shailendra Prajapati — Python Developer (Automation) & Data Analyst" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Prevent dark-mode flash: set theme class before paint -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem("theme");
+          var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          if (stored === "dark" || (!stored && prefersDark)) {
+            document.documentElement.classList.add("dark");
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- Structured data for SEO -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Shailendra Prajapati",
+        "jobTitle": "Python Developer (Automation) & Data Analyst",
+        "url": "https://shailendra-prajapati.dev/",
+        "email": "shailendraprajapati640@gmail.com",
+        "address": { "@type": "PostalAddress", "addressLocality": "Mumbai", "addressRegion": "Maharashtra", "addressCountry": "IN" },
+        "sameAs": [
+          "https://github.com/shailendra-prajapati-03",
+          "https://www.linkedin.com/in/shailendra-prajapati"
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

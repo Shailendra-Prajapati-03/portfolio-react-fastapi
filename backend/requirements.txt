@@ -1,0 +1,10 @@
+# Pinned to compatible minimums; allow newer patch/minor for forward-compat
+# (important on very new Python versions where exact old pins lack wheels).
+fastapi>=0.111,<1.0
+uvicorn[standard]>=0.30
+sqlmodel>=0.0.19
+pydantic>=2.7
+pydantic-settings>=2.3
+python-dotenv>=1.0
+email-validator>=2.1
+slowapi>=0.1.9

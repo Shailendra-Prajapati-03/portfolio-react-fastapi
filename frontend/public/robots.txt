@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://shailendra-prajapati.dev/sitemap.xml

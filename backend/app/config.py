@@ -14,6 +14,9 @@ class Settings(BaseSettings):
 
     # CORS — comma-separated string in the env, parsed into a list below.
     cors_origins: str = "http://localhost:5173,http://127.0.0.1:5173"
+    # Regex for origins to allow in addition to the exact list above.
+    # Default covers all Vercel deployments (production + rotating previews).
+    cors_origin_regex: str = r"https://.*\.vercel\.app"
 
     # SMTP / email
     smtp_host: str = ""

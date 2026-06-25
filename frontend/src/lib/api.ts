@@ -1,7 +1,37 @@
 import type { Project } from "../data/content";
 import { projects as fallbackProjects } from "../data/content";
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000";
+// Strip any trailing slash(es) so `${BASE_URL}/api/...` can never produce a
+// double slash (e.g. ".../onrender.com//api/projects"), which the backend 404s.
+const BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000").replace(
+  /\/+$/,
+  ""
+);
+
+// Fail loudly if a production build was shipped without the backend URL,
+// instead of silently falling back to localhost (which breaks the live site).
+if (import.meta.env.PROD && !import.meta.env.VITE_API_BASE_URL) {
+  console.error(
+    "VITE_API_BASE_URL is not set — API calls will fall back to localhost and fail in production."
+  );
+}
+
+/** Normalize a FastAPI error body into a human-readable string. */
+function extractError(body: unknown, status: number): string {
+  if (body && typeof body === "object" && "detail" in body) {
+    const detail = (body as { detail: unknown }).detail;
+    if (typeof detail === "string") return detail;
+    // 422 validation errors arrive as an array of {loc, msg, ...}.
+    if (Array.isArray(detail)) {
+      const msg = detail
+        .map((d) => (d && typeof d === "object" && "msg" in d ? String((d as { msg: unknown }).msg) : ""))
+        .filter(Boolean)
+        .join(" ");
+      if (msg) return msg;
+    }
+  }
+  return `Request failed (${status})`;
+}
 
 export interface ContactPayload {
   name: string;
@@ -31,7 +61,7 @@ export async function sendContactMessage(
       const body = await res.json().catch(() => ({}));
       return {
         ok: false,
-        error: body.detail ?? `Request failed (${res.status})`,
+        error: extractError(body, res.status),
       };
     }
 

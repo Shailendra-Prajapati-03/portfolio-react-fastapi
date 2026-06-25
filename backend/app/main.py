@@ -41,6 +41,9 @@ app.add_middleware(SlowAPIMiddleware)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins_list,
+    # Also allow Vercel preview deployments (rotating *.vercel.app subdomains),
+    # which an exact-match list cannot cover. Configurable via CORS_ORIGIN_REGEX.
+    allow_origin_regex=settings.cors_origin_regex,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

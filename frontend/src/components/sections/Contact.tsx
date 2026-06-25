@@ -110,6 +110,8 @@ export default function Contact() {
                 value={form.name}
                 onChange={update("name")}
                 placeholder="Your name"
+                minLength={2}
+                maxLength={120}
                 required
               />
               <Field
@@ -129,6 +131,8 @@ export default function Contact() {
                 value={form.subject}
                 onChange={update("subject")}
                 placeholder="What's this about?"
+                minLength={2}
+                maxLength={200}
                 required
               />
             </div>
@@ -142,6 +146,8 @@ export default function Contact() {
                 onChange={update("message")}
                 placeholder="Tell me about your project..."
                 rows={5}
+                minLength={5}
+                maxLength={5000}
                 required
                 className="w-full resize-none rounded-xl border surface px-4 py-3 text-sm outline-none transition-all
                   placeholder:text-muted focus:border-brand-400 focus:ring-2 focus:ring-brand-400/40"
@@ -201,6 +207,8 @@ interface FieldProps {
   placeholder?: string;
   type?: string;
   required?: boolean;
+  minLength?: number;
+  maxLength?: number;
 }
 
 function Field({ label, id, type = "text", ...rest }: FieldProps) {

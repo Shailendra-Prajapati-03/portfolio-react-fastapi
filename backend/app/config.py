@@ -63,6 +63,17 @@ class Settings(BaseSettings):
         validation_alias=AliasChoices("smtp_use_ssl", "email_use_ssl"),
     )
 
+    # --- Resend (HTTP email API over port 443) ---
+    # Preferred on hosts that block outbound SMTP (e.g. Render's free tier,
+    # which raises "Network is unreachable" on smtp.gmail.com). When set, this
+    # takes priority over SMTP. Delivers to CONTACT_RECEIVER; no domain needed
+    # if you send to the same address you signed up to Resend with.
+    resend_api_key: str = Field(default="", validation_alias=AliasChoices("resend_api_key"))
+    resend_from: str = Field(
+        default="Portfolio <onboarding@resend.dev>",
+        validation_alias=AliasChoices("resend_from"),
+    )
+
     @property
     def cors_origins_list(self) -> list[str]:
         return [o.strip() for o in self.cors_origins.split(",") if o.strip()]
@@ -81,20 +92,33 @@ class Settings(BaseSettings):
         return self.smtp_from or self.smtp_user
 
     @property
+    def smtp_configured(self) -> bool:
+        return bool(self.smtp_host and self.smtp_user and self.smtp_password)
+
+    @property
+    def email_provider(self) -> str | None:
+        """Which transport to use. Resend (HTTPS) wins because it works on hosts
+        that block outbound SMTP; SMTP is the fallback for local dev."""
+        if self.resend_api_key:
+            return "resend"
+        if self.smtp_configured:
+            return "smtp"
+        return None
+
+    @property
     def missing_email_vars(self) -> list[str]:
-        """Human-readable list of the required SMTP vars that are still empty."""
-        missing = []
-        if not self.smtp_host:
-            missing.append("SMTP_HOST")
-        if not self.smtp_user:
-            missing.append("SMTP_USER (a.k.a. SMTP_USERNAME)")
-        if not self.smtp_password:
-            missing.append("SMTP_PASSWORD (Gmail App Password)")
-        return missing
+        """What's needed to enable delivery, if nothing is configured yet."""
+        if self.email_provider is not None:
+            return []
+        # Nothing configured — SMTP is blocked on some hosts, so recommend Resend.
+        return [
+            "RESEND_API_KEY (recommended on Render — HTTPS, no blocked ports)",
+            "or SMTP_HOST + SMTP_USER + SMTP_PASSWORD (needs a host that allows SMTP)",
+        ]
 
     @property
     def email_enabled(self) -> bool:
-        return bool(self.smtp_host and self.smtp_user and self.smtp_password)
+        return self.email_provider is not None
 
     @property
     def email_required(self) -> bool:

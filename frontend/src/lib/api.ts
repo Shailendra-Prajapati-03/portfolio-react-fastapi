@@ -16,23 +16,6 @@ if (import.meta.env.PROD && !import.meta.env.VITE_API_BASE_URL) {
   );
 }
 
-/** Normalize a FastAPI error body into a human-readable string. */
-function extractError(body: unknown, status: number): string {
-  if (body && typeof body === "object" && "detail" in body) {
-    const detail = (body as { detail: unknown }).detail;
-    if (typeof detail === "string") return detail;
-    // 422 validation errors arrive as an array of {loc, msg, ...}.
-    if (Array.isArray(detail)) {
-      const msg = detail
-        .map((d) => (d && typeof d === "object" && "msg" in d ? String((d as { msg: unknown }).msg) : ""))
-        .filter(Boolean)
-        .join(" ");
-      if (msg) return msg;
-    }
-  }
-  return `Request failed (${status})`;
-}
-
 export interface ContactPayload {
   name: string;
   email: string;
@@ -46,31 +29,63 @@ export interface ApiResult<T> {
   error?: string;
 }
 
-/** POST a contact message to the FastAPI backend. */
+// Formspree handles email delivery over HTTPS (port 443), so it works on hosts
+// that block outbound SMTP (e.g. Render's free tier). Public endpoint — safe to
+// ship in the client bundle. Overridable via env for different environments.
+const FORMSPREE_ENDPOINT =
+  import.meta.env.VITE_FORMSPREE_ENDPOINT ?? "https://formspree.io/f/xyzkjvql";
+
+/** Best-effort: persist the message in our own backend DB. Never blocks or
+ * fails the user-facing submit — email delivery is Formspree's job. */
+function saveToBackend(payload: ContactPayload): void {
+  fetch(`${BASE_URL}/api/contact`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  }).catch(() => {
+    /* backend may be asleep/unavailable — the email still went via Formspree */
+  });
+}
+
+/** Send a contact message. Email is delivered by Formspree; the backend DB
+ * save is fired in the background and does not affect the result. */
 export async function sendContactMessage(
   payload: ContactPayload
 ): Promise<ApiResult<{ id: number }>> {
+  void saveToBackend(payload);
+
   try {
-    const res = await fetch(`${BASE_URL}/api/contact`, {
+    const res = await fetch(FORMSPREE_ENDPOINT, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        name: payload.name,
+        email: payload.email,
+        subject: payload.subject,
+        message: payload.message,
+        _replyto: payload.email,
+      }),
     });
 
-    if (!res.ok) {
-      const body = await res.json().catch(() => ({}));
-      return {
-        ok: false,
-        error: extractError(body, res.status),
-      };
+    if (res.ok) {
+      return { ok: true, data: { id: 0 } };
     }
 
-    const data = await res.json();
-    return { ok: true, data };
+    // Formspree returns { errors: [{ field, message }] } on failure.
+    const body = await res.json().catch(() => ({}));
+    const errors = (body as { errors?: { message?: string }[] }).errors;
+    const message =
+      Array.isArray(errors) && errors.length
+        ? errors.map((e) => e.message).filter(Boolean).join(" ")
+        : `Could not send your message (${res.status}). Please try again.`;
+    return { ok: false, error: message };
   } catch {
     return {
       ok: false,
-      error: "Could not reach the server. Please try again later.",
+      error: "Could not reach the mail service. Please try again later.",
     };
   }
 }

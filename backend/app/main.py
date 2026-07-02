@@ -25,9 +25,15 @@ limiter = Limiter(key_func=get_remote_address, default_limits=["100/hour"])
 async def lifespan(app: FastAPI):
     init_db()
     log = logging.getLogger("portfolio")
-    if settings.email_enabled:
+    if settings.email_provider == "resend":
         log.info(
-            "Email ENABLED — host=%s port=%s ssl=%s user=%s from=%s to=%s",
+            "Email ENABLED via Resend (HTTPS) — from=%s to=%s",
+            settings.resend_from,
+            settings.contact_receiver,
+        )
+    elif settings.email_provider == "smtp":
+        log.info(
+            "Email ENABLED via SMTP — host=%s port=%s ssl=%s user=%s from=%s to=%s",
             settings.smtp_host,
             settings.smtp_port,
             settings.smtp_use_ssl or settings.smtp_port == 465,
@@ -87,6 +93,9 @@ def email_health() -> dict:
     """
     return {
         "email_enabled": settings.email_enabled,
+        "provider": settings.email_provider,
+        "resend_api_key_set": bool(settings.resend_api_key),
+        "resend_from": settings.resend_from if settings.resend_api_key else None,
         "smtp_host": settings.smtp_host or None,
         "smtp_port": settings.smtp_port,
         "use_ssl": settings.smtp_use_ssl or settings.smtp_port == 465,

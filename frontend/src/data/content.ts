@@ -73,6 +73,7 @@ export const navLinks = [
   { id: "qualification", label: "Journey" },
   { id: "services", label: "Services" },
   { id: "projects", label: "Projects" },
+  { id: "qa", label: "Testing" },
   { id: "contact", label: "Contact" },
 ];
 
@@ -198,6 +199,50 @@ export const services: Service[] = [
     ],
   },
 ];
+
+// --- Manual QA / testing experience ---
+export interface QaWebsite {
+  label: string;
+  href: string;
+}
+
+export const qaExperience = {
+  role: "Manual QA Tester",
+  roleLabel: "Software Testing / Quality Assurance",
+  description:
+    "Performed end-to-end manual testing on live production web applications. Executed test cases, verified business workflows, identified UI/UX issues, validated forms and APIs, and reported bugs to improve application quality and user experience.",
+  websites: [
+    { label: "ucaas.mycountrymobile.com", href: "https://ucaas.mycountrymobile.com/" },
+    { label: "smslocal.com", href: "https://smslocal.com/" },
+    { label: "app.callmama.com", href: "https://app.callmama.com/" },
+  ] as QaWebsite[],
+  responsibilities: [
+    "Functional Testing",
+    "Smoke Testing",
+    "Sanity Testing",
+    "Regression Testing",
+    "UI/UX Testing",
+    "Cross-Browser Testing",
+    "Form Validation Testing",
+    "API Validation",
+    "Test Case Execution",
+    "Bug Identification & Reporting",
+    "Requirement Validation",
+    "User Flow Testing",
+  ],
+  tools: [
+    "Manual Testing",
+    "SDLC",
+    "STLC",
+    "Bug Reporting",
+    "Test Case Design",
+    "Chrome DevTools",
+    "Browser Testing",
+    "API Testing",
+    "Quality Assurance",
+    "Software Testing",
+  ],
+};
 
 export interface Project {
   id: string;

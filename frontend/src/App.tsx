@@ -8,6 +8,7 @@ import Skills from "./components/sections/Skills";
 import Qualification from "./components/sections/Qualification";
 import Services from "./components/sections/Services";
 import Projects from "./components/sections/Projects";
+import ManualQA from "./components/sections/ManualQA";
 import Contact from "./components/sections/Contact";
 import { profile } from "./data/content";
 
@@ -38,6 +39,7 @@ export default function App() {
         <Qualification />
         <Services />
         <Projects />
+        <ManualQA />
         <Contact />
       </main>
 

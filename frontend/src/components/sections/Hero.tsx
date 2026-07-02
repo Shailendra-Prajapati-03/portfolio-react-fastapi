@@ -100,21 +100,25 @@ export default function Hero() {
         >
           <div className="relative aspect-square animate-float">
             <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-tr from-brand-500 to-accent opacity-20 blur-2xl" />
-            <div className="glass relative h-full w-full overflow-hidden rounded-[2rem] shadow-card">
-              <img
-                src={profile.avatar}
-                alt={profile.name}
-                className="h-full w-full object-cover"
-                onError={(e) => {
-                  // graceful fallback to a gradient monogram
-                  (e.currentTarget as HTMLImageElement).style.display = "none";
-                }}
-              />
+            <div className="glass relative h-full w-full overflow-hidden rounded-[2rem] bg-gradient-to-b from-brand-500/10 via-transparent to-accent/15 shadow-card ring-1 ring-white/40">
+              {/* Soft studio spotlight behind the portrait so it pops */}
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(90%_70%_at_50%_18%,rgba(99,102,241,0.30),transparent_65%)]" />
+              {/* Monogram backdrop — sits behind the cut-out portrait and also
+                  acts as the fallback if the image fails to load. */}
               <div className="absolute inset-0 grid place-items-center">
-                <span className="font-display text-8xl font-extrabold text-gradient opacity-40">
+                <span className="font-display text-8xl font-extrabold text-gradient opacity-25">
                   SP
                 </span>
               </div>
+              <img
+                src={profile.avatar}
+                alt={profile.name}
+                className="absolute inset-0 h-full w-full object-cover object-top drop-shadow-[0_10px_30px_rgba(2,6,23,0.25)]"
+                onError={(e) => {
+                  // graceful fallback to the gradient monogram behind it
+                  (e.currentTarget as HTMLImageElement).style.display = "none";
+                }}
+              />
             </div>
 
             {/* Floating badge */}

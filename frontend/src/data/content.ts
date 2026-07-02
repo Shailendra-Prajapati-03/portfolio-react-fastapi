@@ -44,7 +44,7 @@ export const profile = {
   // TODO: replace with your real number — placeholder keeps the tel: link inert.
   phone: "+91 7039582098",
   resumeUrl: "/resume.pdf",
-  avatar: "/avatar.jpg",
+  avatar: "/avatar.webp",
   stats: [
     { label: "Years Experience", value: "1+" },
     { label: "Projects Built", value: "3" },

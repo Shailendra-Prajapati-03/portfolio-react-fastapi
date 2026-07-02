@@ -43,6 +43,17 @@ SEED_PROJECTS: list[dict] = [
         "featured": True,
         "sort_order": 3,
     },
+    {
+        "slug": "ai-lead-validation",
+        "title": "AI Lead Validation Automation",
+        "description": "Automated lead-validation workflow built in n8n that validates incoming leads, enriches data, filters invalid or duplicate entries, and sends automatic notifications. It reduces manual effort, improves lead quality, and streamlines the sales process through intelligent automation — with AI-powered verification, Gmail alerts, Google Sheets sync, webhook triggers, and error-handling/retry logic.",
+        "tags": "n8n,AI Automation,Webhooks",
+        "image": "/projects/ai-lead-validation.png",
+        "demo_url": None,
+        "repo_url": "https://github.com/shailendra-prajapati-03",
+        "featured": True,
+        "sort_order": 4,
+    },
 ]
 
 

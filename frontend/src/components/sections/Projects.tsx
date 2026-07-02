@@ -43,12 +43,12 @@ export default function Projects() {
       subtitle="A selection of things I've designed and built — from playful apps to full platforms."
     >
       {/* Filter chips */}
-      <div className="mb-8 flex flex-wrap justify-center gap-2">
+      <div className="mb-6 flex flex-wrap justify-center gap-2">
         {categories.map((cat) => (
           <button
             key={cat}
             onClick={() => setFilter(cat)}
-            className={`rounded-full px-4 py-2 text-sm font-medium transition-all ${
+            className={`rounded-full px-3.5 py-1.5 text-[0.8rem] font-medium transition-all duration-300 ${
               filter === cat
                 ? "bg-brand-600 text-white shadow-glow"
                 : "border surface text-muted hover:border-brand-400 hover:text-brand-500"
@@ -65,7 +65,7 @@ export default function Projects() {
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.1 }}
-        className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+        className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
       >
         <AnimatePresence mode="popLayout">
           {filtered.map((project) => (

@@ -18,7 +18,7 @@ export default function Qualification() {
           style={{ background: "rgb(var(--border))" }}
         />
 
-        <div className="space-y-8">
+        <div className="space-y-6">
           {timeline.map((item, i) => {
             const left = i % 2 === 0;
             const NodeIcon = item.type === "experience" ? FiBriefcase : FiAward;
@@ -39,14 +39,14 @@ export default function Qualification() {
                   {/* Card */}
                   <div className="w-full sm:w-1/2">
                     <div
-                      className={`rounded-2xl border surface p-5 transition-all duration-300 hover:-translate-y-1 hover:border-brand-400 hover:shadow-card ${
+                      className={`rounded-2xl border surface p-5 shadow-soft transition-[transform,box-shadow,border-color] duration-300 ease-out hover:-translate-y-1 hover:scale-[1.01] hover:border-brand-400/60 hover:shadow-card ${
                         left ? "sm:mr-10 sm:text-right" : "sm:ml-10"
                       }`}
                     >
                       <span className="inline-block rounded-full bg-brand-500/10 px-3 py-1 text-xs font-semibold text-brand-500">
                         {item.period}
                       </span>
-                      <h3 className="mt-3 font-display text-lg font-bold">
+                      <h3 className="mt-3 font-display text-base font-semibold">
                         {item.title}
                       </h3>
                       <p className="text-sm font-medium text-muted">

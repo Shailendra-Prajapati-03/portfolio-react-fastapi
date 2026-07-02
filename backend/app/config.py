@@ -2,11 +2,17 @@
 
 from functools import lru_cache
 
+from pydantic import AliasChoices, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        extra="ignore",
+        case_sensitive=False,
+        populate_by_name=True,
+    )
 
     app_name: str = "Portfolio API"
     environment: str = "development"
@@ -18,21 +24,83 @@ class Settings(BaseSettings):
     # Default covers all Vercel deployments (production + rotating previews).
     cors_origin_regex: str = r"https://.*\.vercel\.app"
 
-    # SMTP / email
-    smtp_host: str = ""
-    smtp_port: int = 587
-    smtp_user: str = ""
-    smtp_password: str = ""
-    smtp_from: str = "no-reply@portfolio.dev"
-    contact_receiver: str = "shailendraprajapati640@gmail.com"
+    # --- SMTP / email ---
+    # Each field accepts a couple of common env-var names so credentials
+    # configured on Render under EITHER convention are picked up. This is the
+    # #1 production footgun: setting SMTP_USERNAME/EMAIL_FROM/EMAIL_TO while the
+    # code only read SMTP_USER/SMTP_FROM/CONTACT_RECEIVER silently disabled email.
+    smtp_host: str = Field(
+        default="",
+        validation_alias=AliasChoices("smtp_host", "email_host"),
+    )
+    smtp_port: int = Field(
+        default=587,
+        validation_alias=AliasChoices("smtp_port", "email_port"),
+    )
+    smtp_user: str = Field(
+        default="",
+        validation_alias=AliasChoices(
+            "smtp_user", "smtp_username", "email_host_user", "email_user"
+        ),
+    )
+    smtp_password: str = Field(
+        default="",
+        validation_alias=AliasChoices(
+            "smtp_password", "smtp_pass", "email_host_password", "email_password"
+        ),
+    )
+    smtp_from: str = Field(
+        default="",
+        validation_alias=AliasChoices("smtp_from", "email_from"),
+    )
+    contact_receiver: str = Field(
+        default="shailendraprajapati640@gmail.com",
+        validation_alias=AliasChoices("contact_receiver", "email_to", "contact_email"),
+    )
+    # Use an implicit-SSL connection (port 465). STARTTLS (587) is the default.
+    smtp_use_ssl: bool = Field(
+        default=False,
+        validation_alias=AliasChoices("smtp_use_ssl", "email_use_ssl"),
+    )
 
     @property
     def cors_origins_list(self) -> list[str]:
         return [o.strip() for o in self.cors_origins.split(",") if o.strip()]
 
     @property
+    def smtp_password_clean(self) -> str:
+        """Gmail App Passwords are shown in space-separated groups but must be
+        sent without spaces. Strip them defensively so a pasted-with-spaces
+        password on Render still authenticates."""
+        return self.smtp_password.replace(" ", "")
+
+    @property
+    def mail_from(self) -> str:
+        """The From address. Falls back to the authenticated user, which Gmail
+        requires (it rejects a From that isn't the account or an alias)."""
+        return self.smtp_from or self.smtp_user
+
+    @property
+    def missing_email_vars(self) -> list[str]:
+        """Human-readable list of the required SMTP vars that are still empty."""
+        missing = []
+        if not self.smtp_host:
+            missing.append("SMTP_HOST")
+        if not self.smtp_user:
+            missing.append("SMTP_USER (a.k.a. SMTP_USERNAME)")
+        if not self.smtp_password:
+            missing.append("SMTP_PASSWORD (Gmail App Password)")
+        return missing
+
+    @property
     def email_enabled(self) -> bool:
-        return bool(self.smtp_host and self.smtp_user)
+        return bool(self.smtp_host and self.smtp_user and self.smtp_password)
+
+    @property
+    def email_required(self) -> bool:
+        """In production a non-sending contact form is a real bug, so failures
+        are surfaced as errors rather than swallowed."""
+        return self.environment.lower() == "production"
 
 
 @lru_cache

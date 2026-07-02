@@ -2,6 +2,7 @@ import { useState, type FormEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FiMail,
+  FiPhone,
   FiMapPin,
   FiSend,
   FiCheckCircle,
@@ -16,6 +17,12 @@ type Status = "idle" | "loading" | "success" | "error";
 
 const contactInfo = [
   { icon: FiMail, label: "Email", value: profile.email, href: `mailto:${profile.email}` },
+  {
+    icon: FiPhone,
+    label: "Phone",
+    value: profile.phone,
+    href: `tel:${profile.phone.replace(/\s+/g, "")}`,
+  },
   { icon: FiMapPin, label: "Location", value: profile.location },
 ];
 
@@ -59,7 +66,7 @@ export default function Contact() {
       title="Get In Touch"
       subtitle="Have a project in mind or just want to say hi? My inbox is always open."
     >
-      <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+      <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
         {/* Info column */}
         <Reveal className="space-y-4">
           {contactInfo.map((info) => {
@@ -68,10 +75,10 @@ export default function Contact() {
               <Wrapper
                 key={info.label}
                 {...(info.href ? { href: info.href } : {})}
-                className="flex items-center gap-4 rounded-2xl border surface p-5 transition-all duration-300 hover:-translate-y-1 hover:border-brand-400 hover:shadow-card"
+                className="flex items-center gap-4 rounded-2xl border surface p-5 shadow-soft transition-[transform,box-shadow,border-color] duration-300 ease-out hover:-translate-y-1 hover:scale-[1.01] hover:border-brand-400/60 hover:shadow-card"
               >
-                <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-brand-500/10 text-brand-500">
-                  <info.icon size={20} />
+                <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-brand-500/10 text-brand-500">
+                  <info.icon size={19} />
                 </div>
                 <div className="min-w-0">
                   <p className="text-xs uppercase tracking-wider text-muted">
@@ -100,10 +107,10 @@ export default function Contact() {
         <Reveal delay={0.1}>
           <form
             onSubmit={handleSubmit}
-            className="glass rounded-3xl p-6 shadow-card sm:p-8"
+            className="glass rounded-3xl p-6 shadow-card sm:p-7"
             noValidate
           >
-            <div className="grid gap-5 sm:grid-cols-2">
+            <div className="grid gap-4 sm:grid-cols-2">
               <Field
                 label="Name"
                 id="name"
@@ -124,7 +131,7 @@ export default function Contact() {
                 required
               />
             </div>
-            <div className="mt-5">
+            <div className="mt-4">
               <Field
                 label="Subject"
                 id="subject"
@@ -136,7 +143,7 @@ export default function Contact() {
                 required
               />
             </div>
-            <div className="mt-5">
+            <div className="mt-4">
               <label htmlFor="message" className="mb-2 block text-sm font-medium">
                 Message
               </label>

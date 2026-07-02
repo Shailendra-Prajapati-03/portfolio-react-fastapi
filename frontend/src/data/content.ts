@@ -41,6 +41,8 @@ export const profile = {
   location: "Ghatkopar, Mumbai, Maharashtra 400084, India",
   age: 23,
   email: "shailendraprajapati640@gmail.com",
+  // TODO: replace with your real number — placeholder keeps the tel: link inert.
+  phone: "+91 7039582098",
   resumeUrl: "/resume.pdf",
   avatar: "/avatar.jpg",
   stats: [
@@ -246,6 +248,16 @@ export const projects: Project[] = [
     image:
       "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80",
     demoUrl: "https://supportdesk-crm.vercel.app",
+    repoUrl: "https://github.com/shailendra-prajapati-03",
+    featured: true,
+  },
+  {
+    id: "ai-lead-validation",
+    title: "AI Lead Validation Automation",
+    description:
+      "Automated lead-validation workflow built in n8n that validates incoming leads, enriches data, filters invalid or duplicate entries, and sends automatic notifications. It reduces manual effort, improves lead quality, and streamlines the sales process through intelligent automation — with AI-powered verification, Gmail alerts, Google Sheets sync, webhook triggers, and error-handling/retry logic.",
+    tags: ["n8n", "AI Automation", "Webhooks"],
+    image: "/projects/ai-lead-validation.png",
     repoUrl: "https://github.com/shailendra-prajapati-03",
     featured: true,
   },

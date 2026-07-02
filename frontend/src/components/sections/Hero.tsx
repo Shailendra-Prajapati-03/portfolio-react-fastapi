@@ -9,7 +9,7 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative flex min-h-[90vh] items-center overflow-hidden pt-28"
+      className="relative flex min-h-[86vh] items-center overflow-hidden pt-24"
     >
       {/* Background layers */}
       <div className="pointer-events-none absolute inset-0 bg-hero-glow" />
@@ -27,7 +27,7 @@ export default function Hero() {
         transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      <div className="container-page relative grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
+      <div className="container-page relative grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
         <motion.div
           variants={staggerContainer(0.14)}
           initial="hidden"
@@ -46,26 +46,26 @@ export default function Hero() {
 
           <motion.h1
             variants={fadeUp}
-            className="mt-6 font-display text-4xl font-extrabold leading-[1.1] sm:text-5xl lg:text-6xl"
+            className="mt-5 font-display text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-[3.5rem]"
           >
             Hi, I'm <span className="text-gradient animate-gradient-text">{profile.firstName}</span>
           </motion.h1>
 
           <motion.p
             variants={fadeUp}
-            className="mt-4 font-display text-xl font-semibold text-muted sm:text-2xl"
+            className="mt-4 font-display text-lg font-semibold text-muted sm:text-xl"
           >
             <Typewriter words={profile.roles} className="text-brand-500" />
           </motion.p>
 
           <motion.p
             variants={fadeUp}
-            className="mt-6 max-w-xl text-base leading-relaxed text-muted sm:text-lg"
+            className="mt-5 max-w-xl text-base leading-relaxed text-muted"
           >
             {profile.tagline}
           </motion.p>
 
-          <motion.div variants={fadeUp} className="mt-8 flex flex-wrap items-center gap-4">
+          <motion.div variants={fadeUp} className="mt-7 flex flex-wrap items-center gap-4">
             <a href="#contact" className="btn-primary">
               Hire me
             </a>
@@ -78,14 +78,14 @@ export default function Hero() {
           {/* Quick stats */}
           <motion.div
             variants={fadeUp}
-            className="mt-10 grid max-w-md grid-cols-3 gap-4"
+            className="mt-8 grid max-w-md grid-cols-3 gap-4"
           >
             {profile.stats.map((s) => (
               <div key={s.label}>
                 <p className="font-display text-2xl font-bold text-brand-500 sm:text-3xl">
                   {s.value}
                 </p>
-                <p className="text-xs text-muted sm:text-sm">{s.label}</p>
+                <p className="mt-0.5 text-xs text-muted sm:text-sm">{s.label}</p>
               </div>
             ))}
           </motion.div>

@@ -24,6 +24,23 @@ limiter = Limiter(key_func=get_remote_address, default_limits=["100/hour"])
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     init_db()
+    log = logging.getLogger("portfolio")
+    if settings.email_enabled:
+        log.info(
+            "Email ENABLED — host=%s port=%s ssl=%s user=%s from=%s to=%s",
+            settings.smtp_host,
+            settings.smtp_port,
+            settings.smtp_use_ssl or settings.smtp_port == 465,
+            settings.smtp_user,
+            settings.mail_from,
+            settings.contact_receiver,
+        )
+    else:
+        log.warning(
+            "Email DISABLED — missing: %s. Contact messages will be STORED but "
+            "NOT emailed. Set these env vars on Render to enable delivery.",
+            ", ".join(settings.missing_email_vars),
+        )
     yield
 
 
@@ -58,6 +75,28 @@ def root() -> dict:
 @app.get("/health", tags=["health"])
 def health() -> dict:
     return {"status": "healthy"}
+
+
+@app.get("/health/email", tags=["health"])
+def email_health() -> dict:
+    """Non-sensitive view of the email configuration for diagnosing deploys.
+
+    Never exposes the password — only whether each var is present. Hit this on
+    the deployed URL (e.g. https://<render-app>.onrender.com/health/email) to
+    confirm the SMTP env vars actually loaded in production.
+    """
+    return {
+        "email_enabled": settings.email_enabled,
+        "smtp_host": settings.smtp_host or None,
+        "smtp_port": settings.smtp_port,
+        "use_ssl": settings.smtp_use_ssl or settings.smtp_port == 465,
+        "smtp_user_set": bool(settings.smtp_user),
+        "smtp_password_set": bool(settings.smtp_password),
+        "mail_from": settings.mail_from or None,
+        "mail_to": settings.contact_receiver or None,
+        "missing_vars": settings.missing_email_vars,
+        "environment": settings.environment,
+    }
 
 
 # Apply a stricter limit to the contact POST specifically.

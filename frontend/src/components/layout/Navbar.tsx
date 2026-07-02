@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiMenu, FiX } from "react-icons/fi";
-import { navLinks, profile } from "../../data/content";
+import { navLinks } from "../../data/content";
 import { useScrollSpy } from "../../hooks/useScrollSpy";
 import ThemeToggle from "../ui/ThemeToggle";
+import Logo from "../ui/Logo";
 
 const sectionIds = navLinks.map((l) => l.id);
 
@@ -41,13 +42,7 @@ export default function Navbar() {
           scrolled ? "glass py-3 shadow-card" : "py-2"
         }`}
       >
-        <a
-          href="#home"
-          className="font-display text-lg font-extrabold tracking-tight"
-        >
-          <span className="text-gradient">{profile.firstName}</span>
-          <span className="text-brand-500">.</span>
-        </a>
+        <Logo />
 
         {/* Desktop links */}
         <ul className="hidden items-center gap-1 md:flex">

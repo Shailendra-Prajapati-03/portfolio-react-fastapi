@@ -1,6 +1,7 @@
 import { FiArrowUp } from "react-icons/fi";
 import { navLinks, profile } from "../../data/content";
 import SocialIcons from "../ui/SocialIcons";
+import Logo from "../ui/Logo";
 
 export default function Footer() {
   const year = 2026; // build-time constant; update on release
@@ -8,13 +9,10 @@ export default function Footer() {
   return (
     <footer className="relative overflow-hidden border-t surface">
       <div className="pointer-events-none absolute inset-x-0 -top-24 h-48 bg-hero-glow" />
-      <div className="container-page py-10">
+      <div className="container-page py-8">
         <div className="grid gap-8 md:grid-cols-3">
           <div>
-            <a href="#home" className="font-display text-xl font-extrabold">
-              <span className="text-gradient">{profile.firstName}</span>
-              <span className="text-brand-500">.</span>
-            </a>
+            <Logo textClassName="text-xl" />
             <p className="mt-3 max-w-xs text-sm text-muted">{profile.tagline}</p>
             <SocialIcons className="mt-5" />
           </div>
@@ -55,7 +53,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t pt-6 text-sm text-muted sm:flex-row"
+        <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t pt-6 text-sm text-muted sm:flex-row"
           style={{ borderColor: "rgb(var(--border))" }}>
           <p>
             © {year} {profile.name}.

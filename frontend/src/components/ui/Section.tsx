@@ -20,13 +20,13 @@ export default function Section({
   className = "",
 }: SectionProps) {
   return (
-    <section id={id} className={`scroll-mt-24 py-12 sm:py-16 ${className}`}>
+    <section id={id} className={`scroll-mt-24 py-10 sm:py-14 ${className}`}>
       <div className="container-page">
         {(eyebrow || title) && (
-          <Reveal className="mx-auto mb-10 max-w-2xl text-center">
+          <Reveal className="mx-auto mb-8 max-w-2xl text-center">
             {eyebrow && <p className="section-eyebrow">{eyebrow}</p>}
             {title && (
-              <h2 className="mt-3 font-display text-2xl font-bold sm:text-3xl md:text-4xl">
+              <h2 className="mt-3 font-display text-xl font-semibold tracking-tight sm:text-2xl md:text-3xl">
                 {title}
               </h2>
             )}

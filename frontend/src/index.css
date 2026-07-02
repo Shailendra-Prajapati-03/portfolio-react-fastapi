@@ -21,6 +21,7 @@
 
   html {
     scroll-padding-top: 5rem; /* offset for fixed navbar on anchor jump */
+    scroll-behavior: smooth; /* buttery anchor navigation (auto under reduced-motion below) */
     -webkit-text-size-adjust: 100%; /* stop iOS Safari from auto-scaling text */
     text-size-adjust: 100%;
     /* Kill horizontal scroll on phones (html is the scroll container on mobile).

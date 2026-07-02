@@ -57,8 +57,11 @@ export default {
         "gradient-x": "gradient-x 6s ease infinite",
       },
       boxShadow: {
-        glow: "0 0 40px -10px rgba(99,102,241,0.5)",
-        card: "0 10px 40px -12px rgba(0,0,0,0.25)",
+        // Soft, layered, low-opacity shadows (Vercel / Linear / Stripe feel).
+        // Two stacked layers read as depth without any heavy dark cast.
+        glow: "0 0 30px -14px rgba(99,102,241,0.35)",
+        soft: "0 1px 2px rgba(2,6,23,0.04), 0 4px 14px -6px rgba(2,6,23,0.08)",
+        card: "0 2px 6px -2px rgba(2,6,23,0.05), 0 12px 28px -12px rgba(2,6,23,0.12)",
       },
     },
   },

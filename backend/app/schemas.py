@@ -23,6 +23,7 @@ class ContactCreate(BaseModel):
 class ContactResponse(BaseModel):
     id: int
     message: str = "Message received successfully."
+    email_sent: bool = True
 
 
 class ContactMessageRead(BaseModel):

@@ -9,7 +9,7 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative flex min-h-[86vh] items-center overflow-hidden pt-24"
+      className="relative flex min-h-[86vh] items-center overflow-hidden pt-24 max-md:pb-6"
     >
       {/* Background layers */}
       <div className="pointer-events-none absolute inset-0 bg-hero-glow" />
@@ -32,6 +32,7 @@ export default function Hero() {
           variants={staggerContainer(0.14)}
           initial="hidden"
           animate="show"
+          className="max-md:text-center"
         >
           <motion.div
             variants={fadeUp}
@@ -65,20 +66,20 @@ export default function Hero() {
             {profile.tagline}
           </motion.p>
 
-          <motion.div variants={fadeUp} className="mt-7 flex flex-wrap items-center gap-4">
+          <motion.div variants={fadeUp} className="mt-7 flex flex-wrap items-center gap-4 max-md:justify-center">
             <a href="#contact" className="btn-primary">
               Hire me
             </a>
             <a href={profile.resumeUrl} className="btn-ghost" download>
               <FiDownload /> Download CV
             </a>
-            <SocialIcons className="ml-1" />
+            <SocialIcons className="ml-1 max-md:ml-0" />
           </motion.div>
 
           {/* Quick stats */}
           <motion.div
             variants={fadeUp}
-            className="mt-8 grid max-w-md grid-cols-3 gap-4"
+            className="mt-8 grid max-w-md grid-cols-3 gap-4 max-md:mx-auto"
           >
             {profile.stats.map((s) => (
               <div key={s.label}>
@@ -89,6 +90,18 @@ export default function Hero() {
               </div>
             ))}
           </motion.div>
+
+          {/* Scroll cue — mobile only, in normal flow below the stats so it
+              stays centered and never overlaps the content. */}
+          <motion.a
+            href="#about"
+            aria-label="Scroll to about"
+            className="mt-12 flex justify-center pb-1 text-muted md:hidden"
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 1.6, repeat: Infinity }}
+          >
+            <FiArrowDown size={22} />
+          </motion.a>
         </motion.div>
 
         {/* Portrait / visual */}
@@ -96,7 +109,7 @@ export default function Hero() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="relative mx-auto hidden w-full max-w-xs sm:max-w-sm md:block"
+          className="relative order-first mx-auto w-full max-w-[17rem] sm:max-w-xs lg:order-none lg:max-w-sm"
         >
           <div className="relative aspect-square animate-float">
             <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-tr from-brand-500 to-accent opacity-20 blur-2xl" />
@@ -128,7 +141,7 @@ export default function Hero() {
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             >
               <p className="text-xs text-muted">Currently</p>
-              <p className="font-semibold">Full-Stack Dev</p>
+              <p className="whitespace-nowrap text-sm font-semibold">Full-Stack Dev / AI Automation</p>
             </motion.div>
           </div>
         </motion.div>
@@ -138,7 +151,7 @@ export default function Hero() {
       <motion.a
         href="#about"
         aria-label="Scroll to about"
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted max-md:hidden"
         animate={{ y: [0, 8, 0] }}
         transition={{ duration: 1.6, repeat: Infinity }}
       >

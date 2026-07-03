@@ -266,8 +266,7 @@ export const projects: Project[] = [
     description:
       "Centralized Django issue-tracking dashboard with Excel/CSV upload, live sheet sync, status tracking & filtering, and an analytics view for workflow KPIs. Deployed on Render.",
     tags: ["Django", "Python", "Dashboard"],
-    image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
+    image: "/projects/issue-tracker.png",
     demoUrl: "https://issuetracker-dashboard.onrender.com/issues/",
     repoUrl: "https://github.com/shailendra-prajapati-03",
     featured: true,
@@ -278,8 +277,7 @@ export const projects: Project[] = [
     description:
       "Full-stack app to create and customize mixed-fruit juice combinations with real-time visualization. REST APIs via Django REST Framework; interactive UI with React, Tailwind, Zustand & Framer Motion.",
     tags: ["React", "Django", "REST API"],
-    image:
-      "https://images.unsplash.com/photo-1622597467836-f3285f2131b8?auto=format&fit=crop&w=1200&q=80",
+    image: "/projects/juicejunction.png",
     demoUrl: "https://juice-junction-mixed-fruit-l4lu.vercel.app/",
     repoUrl: "https://github.com/shailendra-prajapati-03",
     featured: true,
@@ -290,8 +288,7 @@ export const projects: Project[] = [
     description:
       "A customer-support CRM to create, assign, and track support tickets through their full lifecycle, manage customer records, and monitor team performance on an analytics dashboard. React frontend with a Django REST Framework API.",
     tags: ["React", "Django", "REST API"],
-    image:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80",
+    image: "/projects/supportdesk-crm.png",
     demoUrl: "https://supportdesk-crm.vercel.app",
     repoUrl: "https://github.com/shailendra-prajapati-03",
     featured: true,
